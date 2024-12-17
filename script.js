@@ -1,5 +1,5 @@
 let games = [];
-
+const donger = document.getElementById("sadasdas");
 function startNewGame(name1, marker, name2 = "computer") {
   const game = gamePrototype(name1, marker, name2);
   let turn = appLogic.checkStartingTurn(game.player1.marker);
@@ -9,7 +9,7 @@ function startNewGame(name1, marker, name2 = "computer") {
   console.log(games);
 }
 
-const appLogic = (function () {
+const appLogic = (() => {
   const checkStartingTurn = function (marker) {
     if (marker === "x") {
       return "player1";
