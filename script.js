@@ -22,6 +22,7 @@ function startNewGame(name1, marker, name2 = "computer") {
   let turn = checkStartingTurn(game.player1.marker);
   playGame(turn, game.table, game.winner, name2);
   announceWinner(game.winner, game.player1.name, game.player2.name);
+  games.push(game);
   console.log(game);
 }
 
