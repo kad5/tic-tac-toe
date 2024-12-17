@@ -68,71 +68,83 @@
       </div>
     </aside>
     <main>
-      <!--
-            <div class="choose-mode">
+      <div class="choose-mode">
         <h2>Play a game</h2>
-        <button>vs Human</button>
-        <button>vs Computer</button>
+        <div>
+          <button>vs Human</button>
+          <button>vs Computer</button>
+        </div>
       </div>
+      <!--
       <div class="vs-computer">
         <div>
           <h2>Add your name</h2>
-          <input type="text" />
-        </div>
-        <div>
-          <h2>Choose your sign</h2>
-          <div>
-            <radio>X</radio>
-            <radio>O</radio>
-          </div>
-        </div>
-        <button>Start</button>
-        <button>back</button>
-      </div>
-      <div class="vs-human">
-        <div>
-          <h2>Add player 1 name</h2>
-          <input type="text" />
+          <input type="text" id="player1name" />
         </div>
         <div>
           <h2>Choose player 1 sign</h2>
-          <div>
-            <radio>X</radio>
-            <radio>O</radio>
-          </div>
+          <label for="x-marker">Choose (&times;)</label>
+          <input type="radio" name="sign" value="x" id="x-marker" />
+          <label for="o-marker">Choose (&#79;)</label>
+          <input type="radio" name="sign" value="0" id="o-marker" />
+        </div>
+        <div>
+          <button id="HumanGameBtn">Start</button>
+          <button id="resetBtn">back</button>
+        </div>
+      </div>
+
+      <div class="vs-human">
+        <div>
+          <h2>Add player 1 name</h2>
+          <input type="text" id="player1name" />
+        </div>
+        <div>
+          <h2>Choose player 1 sign</h2>
+          <label for="x-marker">Choose (&times;)</label>
+          <input type="radio" name="sign" value="x" id="x-marker" />
+          <label for="o-marker">Choose (&#79;)</label>
+          <input type="radio" name="sign" value="0" id="o-marker" />
         </div>
         <div>
           <h2>Add player 2 name</h2>
-          <input type="text" />
+          <input type="text" id="player2name" />
         </div>
-        <button>Start</button>
-        <button>back</button>
-      </div>-->
+        <div>
+          <button id="HumanGameBtn">Start</button>
+          <button id="resetBtn">back</button>
+        </div>
+      </div>
+-->
+      <!--
       <div class="game-container">
         <div class="app-display">
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
-          <div class="space">x</div>
+          <div data-value="0" class="js-choice space">x</div>
+          <div data-value="1" class="js-choice space">x</div>
+          <div data-value="2" class="js-choice space">x</div>
+          <div data-value="3" class="js-choice space">x</div>
+          <div data-value="4" class="js-choice space">x</div>
+          <div data-value="5" class="js-choice space">x</div>
+          <div data-value="6" class="js-choice space">x</div>
+          <div data-value="7" class="js-choice space">x</div>
+          <div data-value="8" class="js-choice space">x</div>
         </div>
         <div class="players-display">
           <div>
             <p class="player-tag">player 1</p>
-            <p class="player-name">Ahmed</p>
-            <p class="player-sign">X</p>
+            <p id="player1display" class="player-name">Ahmed</p>
+            <p id="player1marker" class="player-sign">X</p>
+          </div>
+          <div>
+            <p id="feedbackDisplay">Player 1 wins</p>
           </div>
           <div>
             <p class="player-tag">player 2</p>
-            <p class="player-name">Khaled</p>
-            <p class="player-sign">O</p>
+            <p id="player2display" class="player-name">Khaled</p>
+            <p id="player2marker" class="player-sign">O</p>
           </div>
         </div>
-      </div>
+      </div>-->
     </main>
     <footer>Made by Kad5</footer>
     <script src="script.js"></script>
