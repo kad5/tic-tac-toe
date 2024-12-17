@@ -17,19 +17,22 @@ const proto = function (name1, sign, name2) {
   return { player1, player2, table, winner, gameDate };
 };
 
-function intializeGame(name1, marker, name2 = "computer") {
+function startNewGame(name1, marker, name2 = "computer") {
   const game = proto(name1, marker, name2);
   let turn = checkStartingTurn(game.player1.marker);
   playGame(turn, game.table, game.winner, name2);
   announceWinner(game.winner, game.player1.name, game.player2.name);
-  console.log(game.winner);
   console.log(game);
 }
 
 function announceWinner(winner, player1, player2) {
   if (winner[0] === "player1") {
     winner[0] = player1;
-  } else winner[0] = player2;
+    console.log(`${winner[0]} has won the game!`);
+  } else if (winner[0] === "player2") {
+    winner[0] = player2;
+    console.log(`${winner[0]} has won the game!`);
+  } else console.log("it is a draw");
 }
 
 function checkStartingTurn(marker) {
