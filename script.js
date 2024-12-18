@@ -61,6 +61,7 @@ async function startNewGame(name1, marker, name2 = "computer") {
   );
   appLogic.announceWinner(game.winner, game.player1.name, game.player2.name);
   games.push(game);
+  miniGames.udapateMiniGames();
 }
 
 const appLogic = (() => {
@@ -299,4 +300,77 @@ const eventListeners = (() => {
   });
 })();
 
+const miniGames = (() => {
+  function udapateMiniGames() {
+    const container = document.querySelector(".all-games");
+    container.innerHTML = "";
+
+    let newstfirst = games.slice().reverse();
+
+    newstfirst.forEach((g) => {
+      const preview = document.createElement("div");
+      preview.classList.add("game-preview");
+
+      const card = document.createElement("div");
+      card.classList.add("game-card");
+
+      const miniGame = document.createElement("div");
+      miniGame.classList.add("mini-game");
+
+      g.table.forEach((value) => {
+        if (value === "player1") {
+          const p1div = document.createElement("div");
+          p1div.textContent = g.player1.marker;
+          p1div.classList.add("mini-choice");
+          g.player1.marker === "X"
+            ? p1div.classList.add("choice-x")
+            : p1div.classList.add("choice-o");
+          miniGame.appendChild(p1div);
+        }
+        if (value === "player2") {
+          const p2div = document.createElement("div");
+          p2div.textContent = g.player2.marker;
+          p2div.classList.add("mini-choice");
+          g.player2.marker === "X"
+            ? p2div.classList.add("choice-x")
+            : p2div.classList.add("choice-o");
+          miniGame.appendChild(p2div);
+        }
+        if (value === null) {
+          const ndiv = document.createElement("div");
+          ndiv.textContent = "";
+          ndiv.classList.add("mini-choice");
+          miniGame.appendChild(ndiv);
+        }
+      });
+
+      const miniP1 = document.createElement("p");
+      miniP1.textContent = g.player1.name;
+      g.player1.marker === "X"
+        ? miniP1.classList.add("choice-x")
+        : miniP1.classList.add("choice-o");
+
+      const miniP2 = document.createElement("p");
+      miniP2.textContent = g.player2.name;
+      if (g.player2.marker === "X") {
+        miniP2.classList.add("choice-x");
+      } else if (g.player2.marker === "O") {
+        miniP2.classList.add("choice-o");
+      }
+
+      const minidate = document.createElement("p");
+      minidate.textContent = g.gameDate;
+
+      card.appendChild(miniGame);
+      card.appendChild(miniP1);
+      card.appendChild(miniP2);
+      card.appendChild(minidate);
+      preview.appendChild(card);
+      container.appendChild(preview);
+    });
+  }
+  return { udapateMiniGames };
+})();
+
+miniGames.udapateMiniGames();
 appLogic.resetBoard();
