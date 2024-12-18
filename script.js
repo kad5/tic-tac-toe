@@ -2,7 +2,7 @@ let games = [];
 
 const gamePrototype = function (name1, sign, name2) {
   const player1 = { name: name1, marker: sign };
-  const player2 = { name: name2, marker: sign === "o" ? "x" : "o" };
+  const player2 = { name: name2, marker: sign === "O" ? "X" : "O" };
   const table = [null, null, null, null, null, null, null, null, null];
   let winner = [0];
   const gameDate = new Date().toLocaleString("en-GB", {
@@ -22,38 +22,30 @@ const domVariables = (() => {
   const humanMode = document.getElementById("humanBtn");
   const computerMode = document.getElementById("computerBtn");
   const player1 = document.getElementById("player1input");
-  const signsDisplay = document.getElementById("signsChoice");
   const x = document.getElementById("x");
   const o = document.getElementById("o");
   const player2 = document.getElementById("player2input");
   const confirmInput = document.getElementById("confirmInputBtn");
   const announcer = document.getElementById("onScreenGuide");
   const nameDisplay1 = document.getElementById("player1display");
+  const markerDisplay1 = document.getElementById("p1dmarker");
   const nameDisplay2 = document.getElementById("player2display");
+  const markerDisplay2 = document.getElementById("p2dmarker");
   return {
     chooseMode,
     humanMode,
     computerMode,
     player1,
-    signsDisplay,
     x,
     o,
     player2,
     confirmInput,
     announcer,
     nameDisplay1,
+    markerDisplay1,
     nameDisplay2,
+    markerDisplay2,
   };
-})();
-
-const resetBoard = (() => {
-  domVariables.announcer.textContent = `Tic Tac Toe!`;
-  domVariables.nameDisplay1.textContent = `Player1`;
-  domVariables.nameDisplay2.textContent = `Player2`;
-  const list = document.querySelectorAll(".js-choice");
-  list.forEach((e) => {
-    e.textContent = "1";
-  });
 })();
 
 async function startNewGame(name1, marker, name2 = "computer") {
@@ -73,7 +65,7 @@ async function startNewGame(name1, marker, name2 = "computer") {
 
 const appLogic = (() => {
   const checkStartingTurn = function (marker) {
-    if (marker === "x") {
+    if (marker === "X") {
       return "player1";
     } else return "player2";
   };
@@ -136,9 +128,17 @@ const appLogic = (() => {
     list.forEach((e) => {
       for (let i = 0; i < table.length; i++) {
         if (i === Number(e.getAttribute("data-value"))) {
-          if (table[i] === "player1") e.textContent = p1.marker;
-          else if (table[i] === "player2") e.textContent = p2.marker;
-          else e.textContent = "";
+          if (table[i] === "player1") {
+            e.textContent = p1.marker;
+            if (p1.marker === "X") {
+              e.classList.add("choice-x");
+            } else e.classList.add("choice-o");
+          } else if (table[i] === "player2") {
+            e.textContent = p2.marker;
+            if (p2.marker === "X") {
+              e.classList.add("choice-x");
+            } else e.classList.add("choice-o");
+          } else e.textContent = "";
         }
       }
     });
@@ -176,16 +176,56 @@ const appLogic = (() => {
       domVariables.announcer.textContent = `${winner[0]} has won the game!`;
     } else domVariables.announcer.textContent = `It is a draw!`;
   };
-  return { checkStartingTurn, playGame, announceWinner };
+
+  const resetBoard = function () {
+    domVariables.announcer.textContent = `Tic Tac Toe!`;
+    domVariables.nameDisplay1.textContent = `Player1`;
+    domVariables.markerDisplay1.textContent = " - ";
+    domVariables.nameDisplay2.textContent = `Player2`;
+    domVariables.markerDisplay2.textContent = " - ";
+
+    document.querySelectorAll(".player-card").forEach((e) => {
+      e.classList.remove("choice-x");
+      e.classList.remove("choice-o");
+    });
+
+    const list = document.querySelectorAll(".js-choice");
+    list.forEach((e) => {
+      e.textContent = "";
+      e.classList.remove("choice-x");
+      e.classList.remove("choice-o");
+    });
+  };
+
+  function assignNamesColors(signChoice) {
+    domVariables.nameDisplay1.textContent = domVariables.player1.value;
+    domVariables.markerDisplay1.textContent = signChoice;
+    domVariables.nameDisplay1.parentElement.classList.add(
+      signChoice === "X" ? "choice-x" : "choice-o"
+    );
+    domVariables.markerDisplay2.textContent = signChoice === "X" ? "O" : "X";
+    domVariables.nameDisplay2.parentElement.classList.add(
+      signChoice === "X" ? "choice-o" : "choice-x"
+    );
+  }
+  return {
+    checkStartingTurn,
+    playGame,
+    announceWinner,
+    resetBoard,
+    assignNamesColors,
+  };
 })();
 
 const eventListeners = (() => {
   let signChoice;
   let gameMode;
+
   domVariables.chooseMode.addEventListener("click", () => {
     page1Btn.style.display = "none";
     humanBtn.style.display = "initial";
     computerBtn.style.display = "initial";
+    appLogic.resetBoard();
   });
 
   domVariables.humanMode.addEventListener("click", () => {
@@ -210,11 +250,11 @@ const eventListeners = (() => {
   });
 
   domVariables.x.addEventListener("click", () => {
-    signChoice = "x";
+    signChoice = "X";
     confirmInputBtn.disabled = false;
   });
   domVariables.o.addEventListener("click", () => {
-    signChoice = "o";
+    signChoice = "O";
     confirmInputBtn.disabled = false;
   });
 
@@ -235,12 +275,12 @@ const eventListeners = (() => {
           signChoice,
           domVariables.player2.value
         );
-        domVariables.nameDisplay1.textContent = domVariables.player1.value;
+        appLogic.assignNamesColors(signChoice);
         domVariables.nameDisplay2.textContent = domVariables.player2.value;
       }
     } else if (gameMode === "computer") {
       startNewGame(domVariables.player1.value, signChoice);
-      domVariables.nameDisplay1.textContent = domVariables.player1.value;
+      appLogic.assignNamesColors(signChoice);
       domVariables.nameDisplay2.textContent = "computer";
     }
 
@@ -258,3 +298,5 @@ const eventListeners = (() => {
     confirmInputBtn.style.display = "none";
   });
 })();
+
+appLogic.resetBoard();

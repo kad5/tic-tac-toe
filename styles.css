@@ -133,6 +133,11 @@ input[type="text"] {
   cursor: pointer;
 }
 
+#confirmInputBtn:disabled {
+  cursor: not-allowed;
+  background-color: var(--clr-3);
+}
+
 .review {
   max-height: calc(100vh - 3.9475rem);
   border-inline-end: 2px solid var(--clr-3);
@@ -173,10 +178,11 @@ main {
 }
 
 .app-container {
-  max-width: 95%;
+  min-width: 278.78px;
   display: grid;
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
   gap: 5px;
+  align-self: center;
 }
 
 .space {
@@ -198,6 +204,7 @@ main {
   border-radius: 16px;
   text-align: center;
   box-shadow: 0px 0px 10px 2px var(--clr-3);
+  background-color: var(--clr-3);
 }
 
 .choice-x {
