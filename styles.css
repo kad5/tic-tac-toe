@@ -57,7 +57,20 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
   right: 12px;
+  cursor: pointer;
   display: initial;
+}
+
+.clearData {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 12px;
+}
+
+.clearData:hover {
+  fill: red;
 }
 
 .page-wrapper {

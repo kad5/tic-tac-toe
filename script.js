@@ -1,4 +1,4 @@
-let games = [];
+let games = JSON.parse(localStorage.getItem("games")) || [];
 
 const gamePrototype = function (name1, sign, name2) {
   const player1 = { name: name1, marker: sign };
@@ -65,6 +65,7 @@ async function startNewGame(name1, marker, name2 = "computer") {
   appLogic.announceWinner(game.winner, game.player1.name, game.player2.name);
   if (game.winner[0] !== 0) {
     games.push(game);
+    localStorage.setItem("games", JSON.stringify(games));
   }
   miniGames.udapateMiniGames();
 }
@@ -383,6 +384,12 @@ const miniGames = (() => {
   }
   return { udapateMiniGames };
 })();
+
+function clearData() {
+  localStorage.clear();
+  alert("All games local data cleared!");
+  miniGames.udapateMiniGames();
+}
 
 miniGames.udapateMiniGames();
 appLogic.resetBoard();
