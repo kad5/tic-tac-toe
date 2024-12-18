@@ -57,6 +57,7 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
   right: 12px;
+  display: initial;
 }
 
 .page-wrapper {
@@ -246,12 +247,25 @@ main {
   .new-game {
     display: flex;
   }
+  .menu-btn {
+    display: none;
+  }
 }
 
 @media (min-width: 760px) {
   .review {
     display: initial;
   }
+}
+
+.moblie-menu {
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: initial;
+  background-color: var(--clr-2);
 }
 
 ::-webkit-scrollbar {

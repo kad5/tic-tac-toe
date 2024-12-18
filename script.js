@@ -31,6 +31,7 @@ const domVariables = (() => {
   const markerDisplay1 = document.getElementById("p1dmarker");
   const nameDisplay2 = document.getElementById("player2display");
   const markerDisplay2 = document.getElementById("p2dmarker");
+  const gameMenu = document.getElementById("newGameMenu");
   return {
     chooseMode,
     humanMode,
@@ -45,10 +46,12 @@ const domVariables = (() => {
     markerDisplay1,
     nameDisplay2,
     markerDisplay2,
+    gameMenu,
   };
 })();
 
 async function startNewGame(name1, marker, name2 = "computer") {
+  domVariables.gameMenu.classList.remove("moblie-menu");
   const game = gamePrototype(name1, marker, name2);
   let turn = appLogic.checkStartingTurn(game.player1.marker);
   await appLogic.playGame(
@@ -221,6 +224,10 @@ const appLogic = (() => {
 const eventListeners = (() => {
   let signChoice;
   let gameMode;
+
+  document.getElementById("mobileMenu").addEventListener("click", () => {
+    domVariables.gameMenu.classList.toggle("moblie-menu");
+  });
 
   domVariables.chooseMode.addEventListener("click", () => {
     page1Btn.style.display = "none";
