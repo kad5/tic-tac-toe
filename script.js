@@ -63,7 +63,9 @@ async function startNewGame(name1, marker, name2 = "computer") {
     game.player2
   );
   appLogic.announceWinner(game.winner, game.player1.name, game.player2.name);
-  games.push(game);
+  if (game.winner[0] !== 0) {
+    games.push(game);
+  }
   miniGames.udapateMiniGames();
 }
 
@@ -178,7 +180,10 @@ const appLogic = (() => {
     } else if (winner[0] === "player2") {
       winner[0] = player2;
       domVariables.announcer.textContent = `${winner[0]} has won the game!`;
-    } else domVariables.announcer.textContent = `It is a draw!`;
+    } else {
+      winner[0] = "draw";
+      domVariables.announcer.textContent = `It is a draw!`;
+    }
   };
 
   const resetBoard = function () {
