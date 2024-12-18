@@ -1,5 +1,5 @@
 let games = [];
-const donger = document.getElementById("sadasdas");
+
 function startNewGame(name1, marker, name2 = "computer") {
   const game = gamePrototype(name1, marker, name2);
   let turn = appLogic.checkStartingTurn(game.player1.marker);
@@ -7,6 +7,15 @@ function startNewGame(name1, marker, name2 = "computer") {
   appLogic.announceWinner(game.winner, game.player1.name, game.player2.name);
   games.push(game);
   console.log(games);
+}
+
+function fetchMove() {
+  let recentMove = null;
+  const gridInput = document.querySelector(".app-container");
+  gridInput.addEventListener("click", (e) => {
+    recentMove = e.target.dataset.value;
+  });
+  if (recentMove) return recentMove;
 }
 
 const appLogic = (() => {
@@ -88,3 +97,112 @@ const gamePrototype = function (name1, sign, name2) {
   });
   return { player1, player2, table, winner, gameDate };
 };
+
+const domVariables = (() => {
+  const chooseMode = document.getElementById("page1Btn");
+  const humanMode = document.getElementById("humanBtn");
+  const computerMode = document.getElementById("computerBtn");
+  const player1 = document.getElementById("player1input");
+  const signsDisplay = document.getElementById("signsChoice");
+  const x = document.getElementById("x");
+  const o = document.getElementById("o");
+  const player2 = document.getElementById("player2input");
+  const confirmInput = document.getElementById("confirmInputBtn");
+  const announcer = document.getElementById("onScreenGuide");
+  const nameDisplay1 = document.getElementById("player1display");
+  const nameDisplay2 = document.getElementById("player2display");
+  return {
+    chooseMode,
+    humanMode,
+    computerMode,
+    player1,
+    signsDisplay,
+    x,
+    o,
+    player2,
+    confirmInput,
+    announcer,
+    nameDisplay1,
+    nameDisplay2,
+  };
+})();
+
+const eventListeners = (() => {
+  let signChoice;
+  let gameMode;
+  domVariables.chooseMode.addEventListener("click", () => {
+    page1Btn.style.display = "none";
+    humanBtn.style.display = "initial";
+    computerBtn.style.display = "initial";
+  });
+
+  domVariables.humanMode.addEventListener("click", () => {
+    humanBtn.style.display = "none";
+    computerBtn.style.display = "none";
+    player1input.style.display = "initial";
+    signsChoice.style.display = "initial";
+    player2input.style.display = "initial";
+    confirmInputBtn.style.display = "initial";
+    confirmInputBtn.disabled = true;
+    gameMode = "human";
+  });
+
+  domVariables.computerMode.addEventListener("click", () => {
+    humanBtn.style.display = "none";
+    computerBtn.style.display = "none";
+    player1input.style.display = "initial";
+    signsChoice.style.display = "initial";
+    confirmInputBtn.style.display = "initial";
+    confirmInputBtn.disabled = true;
+    gameMode = "computer";
+  });
+
+  domVariables.x.addEventListener("click", () => {
+    signChoice = "x";
+    confirmInputBtn.disabled = false;
+  });
+  domVariables.o.addEventListener("click", () => {
+    signChoice = "o";
+    confirmInputBtn.disabled = false;
+  });
+
+  domVariables.confirmInput.addEventListener("click", () => {
+    if (domVariables.player1.value === "") {
+      domVariables.announcer.textContent =
+        "Please enter a valid name for player 1";
+      return;
+    }
+    if (gameMode === "human") {
+      if (domVariables.player2.value === "") {
+        domVariables.announcer.textContent =
+          "Please enter a valid name for player 2";
+        return;
+      } else {
+        startNewGame(
+          domVariables.player1.value,
+          signChoice,
+          domVariables.player2.value
+        );
+        domVariables.nameDisplay1.textContent = domVariables.player1.value;
+        domVariables.nameDisplay2.textContent = domVariables.player2.value;
+      }
+    } else if (gameMode === "computer") {
+      startNewGame(domVariables.player1.value, signChoice);
+      domVariables.nameDisplay1.textContent = domVariables.player1.value;
+      domVariables.nameDisplay2.textContent = "computer";
+    }
+
+    domVariables.player1.value = "";
+    domVariables.player2.value = "";
+    signChoice = "";
+    gameMode = "";
+
+    page1Btn.style.display = "initial";
+    humanBtn.style.display = "none";
+    computerBtn.style.display = "none";
+    player1input.style.display = "none";
+    signsChoice.style.display = "none";
+    player2input.style.display = "none";
+    confirmInputBtn.style.display = "none";
+  });
+})();
